@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block titulo %}Control de combustible{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+
+<body>
+    <p>Contenido de la plantilla base</p>
+    {% block contenido %}
+    <p>Contenido predeterminado</p>
+    {% endblock contenido %}
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>
