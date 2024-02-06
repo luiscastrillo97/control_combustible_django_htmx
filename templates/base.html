@@ -7,15 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block titulo %}Control de combustible{% endblock %}</title>
 
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-flatly.min.css' %}">
 </head>
 
 <body>
-    <p>Contenido de la plantilla base</p>
-    {% block contenido %}
-    <p>Contenido predeterminado</p>
-    {% endblock contenido %}
+    <!-- Navbar -->
+    {% include "fragments/menu.html" %}
+    <!-- End Navbar -->
 
+    <div class="row">
+        <div class="container-sm">
+            {% block contenido %}
+            {% endblock contenido %}
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"
+        integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 
