@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Registrar usuario{% endblock %}
+
+{% block contenido %}
+{% include "fragments/header.html" with titulo="Registrar usuario"%}
+{% include "fragments/card-start.html" with card_header="Registrarse" %}
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit" class="btn btn-warning">Registrar usuario</button>
+</form>
+{% include "fragments/card-end.html" %}
+{% endblock %}
