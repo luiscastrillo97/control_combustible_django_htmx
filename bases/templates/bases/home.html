@@ -3,7 +3,7 @@
 {% block titulo %}Gas Control{% endblock %}
 
 {% block contenido %}
-{% include "fragments/header.html" with titulo="Inicio"%}
+
 {% include "fragments/card-start.html" with card_header="Bienvenido" %}
 <h4 class="card-title">
     {% if user.is_authenticated %}
@@ -14,6 +14,7 @@
     {% endif %}
 </h4>
 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+    content. Some quick example text to build on the card title and make up the bulk of the card's
     content.</p>
 {% include "fragments/card-end.html" %}
 {% endblock %}
