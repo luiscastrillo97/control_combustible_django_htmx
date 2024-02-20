@@ -1,16 +1,15 @@
 {% extends "base.html" %}
-
 {% load crispy_forms_tags %}
-
-{% block titulo %}Login{% endblock %}
-
-{% block contenido %}
-
+{% block titulo %}Login{%endblock %}
+{% block contenido %} 
 {% include "fragments/card-start.html" with card_header="Iniciar Sesión" %}
-<form method="post">
-    {% csrf_token %}
-    {{form | crispy}}
-    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+<form
+  hx-post="{% url 'users:login_alt' %}"
+  hx-target="#body"
+  hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'
+>
+  {{form | crispy}}
+  <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
 </form>
 {% include "fragments/card-end.html" %}
 {% endblock %}

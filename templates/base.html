@@ -1,34 +1,37 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block titulo %}Control de combustible{% endblock %}</title>
 
-    <link rel="stylesheet" href="{% static 'css/bootstrap-flatly.min.css' %}">
-</head>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-flatly.min.css' %}" />
+  </head>
 
-<body>
+  <body id="body">
     <!-- Navbar -->
     {% include "fragments/menu.html" %}
     <!-- End Navbar -->
 
     <div class="row m-4">
-        <div class="d-flex flex-column align-items-center justify-content-center ">
-            {% block contenido %}
-            {% endblock contenido %}
-        </div>
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        {% block contenido %} {% endblock contenido %}
+      </div>
     </div>
 
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"
-        integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"
+      integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-</body>
-
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+  </body>
 </html>

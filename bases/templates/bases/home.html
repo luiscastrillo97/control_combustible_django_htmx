@@ -1,20 +1,12 @@
 {% extends "base.html" %}
-
 {% block titulo %}Gas Control{% endblock %}
-
 {% block contenido %}
-
 {% include "fragments/card-start.html" with card_header="Bienvenido" %}
 <h4 class="card-title">
-    {% if user.is_authenticated %}
-    Hola {{ user.email }}
-    {% else %}
+    {% if user.is_authenticated %} Hola {{ user.email }} {% else %}
     <!-- <a href="{% url 'users:login' %}">Login</a> -->
     <a href="{% url 'users:login_alt' %}">Login</a>
     {% endif %}
 </h4>
-<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-    content. Some quick example text to build on the card title and make up the bulk of the card's
-    content.</p>
-{% include "fragments/card-end.html" %}
-{% endblock %}
+<p class="card-text">{% lorem 5 %}</p>
+{% include "fragments/card-end.html" %} {% endblock %}

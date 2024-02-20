@@ -1,60 +1,142 @@
-{% load socialaccount %}
-{% providers_media_js %}
+{% load socialaccount %} {% providers_media_js %}
 
 <div class="bs-docs-section clearfix">
-    <div class="row">
-        <div class="bs-component">
-            <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Gas Control</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarColor01">
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="{% url 'core:home' %}">Inicio
-                                    <!-- <span class="visually-hidden">(current)</span> -->
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Registrar</a>
-                            </li>
-                            <!-- <li class="nav-item">
+  <div class="row">
+    <div class="bs-component">
+      <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <div
+                class="navbar-brand"
+                hx-get="{% url 'core:home' %}"
+                hx-push-url="true"
+                hx-trigger="click"
+                hx-target="#body"
+                hx-swap="outerHTML"
+                style="cursor: pointer;"
+            >
+            Gas Control
+            </div>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <!-- <a class="nav-link active" href="{% url 'core:home' %}">Inicio
+                                </a> -->
+                <div
+                  class="nav-link"
+                  hx-get="{% url 'core:home' %}"
+                  hx-push-url="true"
+                  hx-trigger="click"
+                  hx-target="#body"
+                  hx-swap="outerHTML"
+                  style="cursor: pointer;"
+                >
+                  Inicio
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Registrar</a>
+              </li>
+              <!-- <li class="nav-item">
                                 <a class="nav-link" href="#">Pricing</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">About</a>
                             </li> -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Catálogo</a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Marcas</a>
-                                    <a class="dropdown-item" href="#">modelos</a>
-                                    <a class="dropdown-item" href="#">Vehículos</a>
-                                    <!-- <div class="dropdown-divider"></div>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  href="#"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  >Catálogo</a
+                >
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Marcas</a>
+                  <a class="dropdown-item" href="#">modelos</a>
+                  <a class="dropdown-item" href="#">Vehículos</a>
+                  <!-- <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Separated link</a> -->
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'pages:about-app' %}">Acerca de</a>
-                            </li>
-                        </ul>
-                        <div class="d-flex">
-                            {% if user.is_authenticated %}
-                            <a href="{% url 'users:logout' %}">Cerrar Sesión</a>
-                            {% else %}
-                            <a href="{% url 'users:login_alt' %}">Iniciar Sesión</a>
-                            | <a href="{% url 'users:register' %}">Registrarse</a>
-                            | <a href="{% provider_login_url 'google' %}?next=/">Google</a>
-                            {% endif %}
-                        </div>
-                    </div>
                 </div>
-            </nav>
+              </li>
+              <li class="nav-item">
+                <div
+                    class="nav-link"
+                    hx-get="{% url 'pages:about-app' %}"
+                    hx-push-url="true"
+                    hx-trigger="click"
+                    hx-target="#body"
+                    hx-swap="outerHTML"
+                    style="cursor: pointer;"
+                >
+                Acerca de
+                </div>
+              </li>
+            </ul>
+            <div class="d-flex">
+              {% if user.is_authenticated %}
+                <div
+                    class="text-info"
+                    hx-get="{% url 'users:logout' %}"
+                    hx-push-url="true"
+                    hx-trigger="click"
+                    hx-target="#body"
+                    hx-swap="outerHTML"
+                    style="cursor: pointer;"
+                >
+                Cerrar Sesión
+                </div>
+              {% else %}
+                <div
+                    class="text-info"
+                    hx-get="{% url 'users:login_alt' %}"
+                    hx-push-url="true"
+                    hx-trigger="click"
+                    hx-target="#body"
+                    hx-swap="outerHTML"
+                    style="cursor: pointer;"
+                >
+                Iniciar Sesión
+                </div> |
+                <div
+                    class="text-info"
+                    hx-get="{% url 'users:register' %}"
+                    hx-push-url="true"
+                    hx-trigger="click"
+                    hx-target="#body"
+                    hx-swap="outerHTML"
+                    style="cursor: pointer;"
+                >
+                Regístrate
+                </div> |
+                <div
+                    class="text-info"
+                    hx-get="{% provider_login_url 'google' %}?next=/"
+                    hx-push-url="true"
+                    hx-trigger="click"
+                    hx-target="#body"
+                    hx-swap="outerHTML"
+                    style="cursor: pointer;"
+                >
+                Google
+                </div>
+              {% endif %}
+            </div>
+          </div>
         </div>
+      </nav>
     </div>
+  </div>
 </div>
