@@ -47,12 +47,6 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">Registrar</a>
               </li>
-              <!-- <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
-                            </li> -->
               <li class="nav-item dropdown">
                 <a
                   class="nav-link dropdown-toggle"
@@ -61,10 +55,20 @@
                   role="button"
                   aria-haspopup="true"
                   aria-expanded="false"
-                  >Catálogo</a
                 >
+                Catálogo
+                </a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Marcas</a>
+                  <div
+                    class="dropdown-item"
+                    hx-get="{% url 'control:brand_list' %}"
+                    hx-push-url="true"
+                    hx-trigger="click"
+                    hx-target="#body"
+                    style="cursor: pointer;"
+                  >
+                  Marcas
+                  </div>
                   <a class="dropdown-item" href="#">modelos</a>
                   <a class="dropdown-item" href="#">Vehículos</a>
                   <!-- <div class="dropdown-divider"></div>

@@ -7,9 +7,10 @@
     <title>{% block titulo %}Control de combustible{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'css/bootstrap-flatly.min.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   </head>
 
-  <body id="body">
+  <body id="body" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
     <!-- Navbar -->
     {% include "fragments/menu.html" %}
     <!-- End Navbar -->

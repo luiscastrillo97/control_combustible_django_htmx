@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block titulo %}Marcas{% endblock %}
+{% block contenido %}
+{% include "fragments/card-start.html" with card_header="Marcas" %}
+<div class="row">
+    <div class="col-md-6">
+        <div id="brand-form">
+            {% include 'ctrl_comb/brand-form.html' %}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="brand-list">
+            {% include 'ctrl_comb/brand-list.html' %}
+        </div>
+    </div>
+</div>
+{% include "fragments/card-end.html" %}
+{% endblock %}

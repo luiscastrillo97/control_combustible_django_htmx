@@ -1,0 +1,29 @@
+{% if objects %}
+<table class="table table-striped table-hover">
+    <thead>
+        <th>Id</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+    </thead>
+    <tbody>
+        {% for object in objects %}
+        <tr>
+            <td>{{ object.id }}</td>
+            <td>{{ object.description }}</td>
+            <td>
+                <i class="bi bi-trash3" style="cursor: pointer;" hx-delete="{% url 'control:delete_brand' object.id %}"
+                    hx-target="#brand-list" hx-confirm="¿Desea eliminar el registo?"></i>
+                <i class="bi bi-pencil-square" style="cursor: pointer;"
+                    hx-get="{% url 'control:edit_brand' object.id %}" hx-target="#brand-form"></i>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No hay registros</p>
+{% endif %}
+{% if register %}
+<input type="text" class="form-control" id="id" name="id" placeholder="Id" readonly value="{{register.id}}"
+    hx-swap-oob="true" />
+{% endif %}

@@ -24,4 +24,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("pages/", include("paginas.urls")),
     path("users/", include("usuarios.urls")),
+    path("control/", include(("ctrl_comb.urls", "control"), namespace="control")),
 ]

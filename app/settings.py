@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "bases",
     "usuarios",
     "paginas",
+    "ctrl_comb",
     # All Auth
     "django.contrib.sites",
     "allauth",
@@ -92,7 +93,7 @@ WSGI_APPLICATION = "app.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "control_combustible",
+        "NAME": os.environ["POSTGRES_DB"],
         "USER": "postgres",
         "PASSWORD": "postgres",
         "HOST": "db",

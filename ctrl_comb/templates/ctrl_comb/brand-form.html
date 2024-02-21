@@ -1,0 +1,63 @@
+<form
+    class="d-flex align-item-center"
+    method="post"
+    hx-post="{% url 'control:save_brand' %}"
+    hx-target="#brand-list"
+>
+  <fieldset>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="id" class="form-label">Id</label>
+          <input
+            type="text"
+            class="form-control"
+            id="id"
+            aria-describedby="idhelp"
+            name="id"
+            placeholder="Id"
+            readonly
+            value="{{object.id}}"
+          />
+          <!-- <small id="idhelp" class="form-text text-muted">Id</small> -->
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+            <label for="description" class="form-label">Descripción</label>
+            <input
+              type="text"
+              class="form-control"
+              id="description"
+              aria-describedby="descriptionhelp"
+              name="description"
+              placeholder="Descripción"
+              value="{{object.description}}"
+            />
+          <!-- <small id="descriptionhelp" class="form-text text-muted">Descripción</small> -->
+          </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mt-2">
+          <button type="submit" class="btn btn-success btn-sm">
+          {% if object.id%}
+          Editar
+          {% else %}
+          Guardar
+          {% endif %}
+          </button>
+        </div>
+        <div class="col-md-6 mt-2">
+            <button
+                type="button"
+                class="btn btn-info btn-sm"
+                hx-get="{% url 'control:brand_list' %}"
+                hx-target="#body"
+            >
+                Limpiar
+            </button>
+        </div>
+    </div>
+  </fieldset>
+</form>
