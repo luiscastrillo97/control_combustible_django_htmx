@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}Agregar/Editar Modelo de Vehículo{% endblock %}
+{% block contenido %}
+{% include "fragments/card-start.html" with card_header="Agregar/Editar Modelos de Vehículos" %}
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="row">
+        <div class="col-md-6">
+            {% if object.brand %}
+            <button type="submit" class="btn btn-success btn-sm">
+                <i class="bi bi-pencil-square"></i>
+                Editar
+            </button>
+            {% else %}
+            <button type="submit" class="btn btn-info btn-sm">
+                <i class="bi bi-floppy"></i>
+                Agregar
+            </button>
+            {% endif %}
+            <a href="{% url 'control:model_list' %}" class="btn btn-danger btn-sm">
+                <i class="bi bi-x-square"></i>
+                Cancelar
+            </a>
+        </div>
+    </div>
+</form>
+{% include "fragments/card-end.html" %}
+{% endblock %}
+
+{% block js %}
+{% include "fragments/datatable.html" with class_name="#car-model-table"%}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% load static %}
+<script>
+    $(function () {
+        $("{{class_name|default:'#custom_table'}}").DataTable({
+            language: {
+                url: "{% static 'plugins/datatables/es-CO.json' %}",
+            }
+        })
+    })
+</script>

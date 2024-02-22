@@ -30,8 +30,6 @@
           <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto">
               <li class="nav-item">
-                <!-- <a class="nav-link active" href="{% url 'core:home' %}">Inicio
-                                </a> -->
                 <div
                   class="nav-link"
                   hx-get="{% url 'core:home' %}"
@@ -54,7 +52,7 @@
                   href="#"
                   role="button"
                   aria-haspopup="true"
-                  aria-expanded="false"
+                  aria-expanded="true"
                 >
                 Catálogo
                 </a>
@@ -69,10 +67,8 @@
                   >
                   Marcas
                   </div>
-                  <a class="dropdown-item" href="#">modelos</a>
+                  <a class="dropdown-item" href="{% url 'control:model_list' %}">modelos</a>
                   <a class="dropdown-item" href="#">Vehículos</a>
-                  <!-- <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Separated link</a> -->
                 </div>
               </li>
               <li class="nav-item">

@@ -11,10 +11,14 @@
             <td>{{ object.id }}</td>
             <td>{{ object.description }}</td>
             <td>
-                <i class="bi bi-trash3" style="cursor: pointer;" hx-delete="{% url 'control:delete_brand' object.id %}"
-                    hx-target="#brand-list" hx-confirm="¿Desea eliminar el registo?"></i>
-                <i class="bi bi-pencil-square" style="cursor: pointer;"
-                    hx-get="{% url 'control:edit_brand' object.id %}" hx-target="#brand-form"></i>
+                <button type="button" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash3" style="cursor: pointer;" hx-delete="{% url 'control:delete_brand' object.id %}"
+                        hx-target="#brand-list" hx-confirm="¿Desea eliminar el registo?"></i>
+                </button>
+                <button type="button" class="btn btn-success btn-sm">
+                    <i class="bi bi-pencil-square" style="cursor: pointer;"
+                        hx-get="{% url 'control:edit_brand' object.id %}" hx-target="#brand-form"></i>
+                </button>
             </td>
         </tr>
         {% endfor %}

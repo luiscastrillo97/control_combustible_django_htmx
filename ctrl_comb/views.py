@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .models import *
 from .forms import *
 
@@ -65,3 +66,49 @@ def edit_brand(request, id=None):
     context["object"] = object
 
     return render(request, template_name, context)
+
+
+class ListCarModels(ListView):
+    model = CarModel
+    template_name = "ctrl_comb/car-model.html"
+    context_object_name = "objects"
+    ordering = ["brand", "description"]
+
+
+class CreateCarModel(CreateView):
+    model = CarModel
+    template_name = "ctrl_comb/car-model-form.html"
+    form_class = CarModelForm
+    context_object_name = "object"
+    success_url = reverse_lazy("control:model_list")
+
+
+class UpdateCarModel(UpdateView):
+    model = CarModel
+    template_name = "ctrl_comb/car-model-form.html"
+    form_class = CarModelForm
+    context_object_name = "object"
+    success_url = reverse_lazy("control:model_list")
+
+
+class DeleteCarModel(DeleteView):
+    model = CarModel
+    template_name = "bases/delete.html"
+    context_object_name = "object"
+    success_url = reverse_lazy("control:model_list")
+
+
+class UpdateCarModelWithModal(UpdateView):
+    model = CarModel
+    template_name = "ctrl_comb/car-model-edit-modal.html"
+    form_class = CarModelForm
+    context_object_name = "object"
+    success_url = reverse_lazy("control:model_list")
+
+
+class CreateCarModelWithModal(CreateView):
+    model = CarModel
+    template_name = "ctrl_comb/car-model-edit-modal.html"
+    form_class = CarModelForm
+    context_object_name = "object"
+    success_url = reverse_lazy("control:model_list")

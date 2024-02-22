@@ -7,7 +7,19 @@
     <title>{% block titulo %}Control de combustible{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'css/bootstrap-flatly.min.css' %}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <link
+      href="{% static 'plugins/datatables/datatables.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'plugins/datatables/Responsive-3.0.0/css/responsive.bootstrap5.min.css' %}"
+      rel="stylesheet"
+    />
   </head>
 
   <body id="body" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
@@ -17,9 +29,12 @@
 
     <div class="row m-4">
       <div class="d-flex flex-column align-items-center justify-content-center">
-        {% block contenido %} {% endblock contenido %}
+        {% block contenido %}
+        {% endblock contenido %}
       </div>
     </div>
+
+    <div id="popup" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"></div>
 
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -34,5 +49,24 @@
     ></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/htmx.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/Buttons-3.0.0/js/buttons.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.js' %}"></script>
+
+    <script>
+      function abrirModal(url) {
+        $("#popup").load(url, function () {
+          $(this).modal("show");
+        });
+      }
+
+      function cerrarModal() {
+        $("#popup").modal("hide");
+        return false;
+      }
+    </script>
+
+    {% block js %}
+    {% endblock %}
   </body>
 </html>

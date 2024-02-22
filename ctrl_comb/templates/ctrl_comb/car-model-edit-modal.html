@@ -1,0 +1,32 @@
+{% load crispy_forms_tags %}
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Agregar/Editar Modelo del Vehículo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <form action="{{ request.path }}" method="post">
+            {% csrf_token %}
+            <div class="modal-body">{{ form|crispy }}</div>
+            <div class="modal-footer">
+                {% if object.brand %}
+                <button type="submit" class="btn btn-success btn-sm">
+                    <i class="bi bi-pencil-square"></i>
+                    Editar
+                </button>
+                {% else %}
+                <button type="submit" class="btn btn-info btn-sm">
+                    <i class="bi bi-floppy"></i>
+                    Agregar
+                </button>
+                {% endif %}
+                <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">
+                    <i class="bi bi-x-square"></i>
+                    Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
