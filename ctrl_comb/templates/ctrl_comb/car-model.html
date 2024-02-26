@@ -19,67 +19,25 @@
             <th>Borrar</th>
         </tr>
     </thead>
-    <tbody>
-
-    </tbody>
 </table>
 {% include "fragments/card-end.html" %}
 {% endblock %}
 
 {% block js %}
-{% include "fragments/datatable.html" with class_name="#car-model-table"%}
-<script>
-    function deleteCarModel(id, brand, model) {
-        Swal.fire({
-            title: "Estás seguro/a?",
-            text: `Deseas eliminar ${brand} - ${model}`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, Borrar!",
-            cancelButtonText: "Cancelar",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const url = `{% url 'control:model_list' %}/delete/${id}`
-                $.ajax({
-                    headers: { "X-CSRFToken": "{{ csrf_token }}" },
-                    type: "POST",
-                    url,
-                    success: (data, textStatus, jqXHR) => {
-                        if (jqXHR.status == 200) {
-                            Swal.fire({
-                                title: "Borrado!",
-                                text: `${brand} - ${model} ha sido borrado`,
-                                icon: "success"
-                            }).then(() => { tableInfo.ajax.reload() });
-                        }
-                    },
-                    error: (jqXHR, textStatus, errorThrown) => {
-                        Swal.fire({
-                            title: "Error!",
-                            text: `${brand} - ${model} no ha sido borrado`,
-                            icon: "error"
-                        })
-                    },
-                })
-            }
-        });
-    }
-
-    $("#car-model-table").on("click", "td.editor-edit", function (event) {
-        event.preventDefault()
-        const rows = tableInfo.rows(this).data()
-        const row = rows["0"]
-        const url = `models/update/modal/${row.id}`
-        showModal(url)
-    })
-
-    $("#car-model-table").on("click", "td.editor-delete", function (event) {
-        event.preventDefault()
-        const rows = tableInfo.rows(this).data()
-        const row = rows["0"]
-        deleteCarModel(row.id, row.brand, row.description)
-    })
-</script>
 {% endblock %}
+
+<!-- datatable settings for the table on this page -->
+
+<!-- url to get data -->
+{% block table_url %}{% url 'control:datatable_model' %}{% endblock %}
+<!-- url to edit data -->
+{% block edit_url %}/control/models/update/modal{% endblock %}
+<!-- url to delete data -->
+{% block delete_url %}{% url 'control:model_list' %}/delete{% endblock %}
+<!-- table id -->
+{% block table_id %}#car-model-table{% endblock %}
+<!-- columns to render -->
+{% block table_columns %}
+{ data: "brand" },
+{ data: "description" },
+{% endblock table_columns %}

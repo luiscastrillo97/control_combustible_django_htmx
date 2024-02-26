@@ -66,6 +66,32 @@
       }
     </script>
 
+    <script>
+      var tableId = "{% block table_id %}#custom-table{% endblock %}"
+      var tableColumns = [
+        {% block table_columns %}{% endblock table_columns %}
+        {% block table_actions %}
+        {
+            data: null,
+              className: "dt-center editor-edit text-success",
+                defaultContent: '<i class="bi bi-pencil-square"></i>',
+                  orderable: false
+          },
+          {
+            data: null,
+              className: "dt-center editor-delete text-danger",
+                defaultContent: '<i class="bi bi-trash"></i>',
+                  orderable: false
+          }
+        {% endblock table_actions %}
+      ]
+      var tableUrl = "{% block table_url %}/{% endblock %}"
+      var editUrl = "{% block edit_url %}/{% endblock %}"
+      var deleteUrl = "{% block delete_url %}/{% endblock %}"
+    </script>
+
+    {% include "fragments/datatable.html"%}
+
     {% block js %}
     {% endblock %}
   </body>
