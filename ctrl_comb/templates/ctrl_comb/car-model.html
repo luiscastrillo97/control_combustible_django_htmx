@@ -6,42 +6,21 @@
     <i class="bi bi-plus-circle"></i>
     Agregar Modelo
 </a>
-<button type="button" class="btn btn-secondary btn-sm" onclick="abrirModal('{% url 'control:create_model_modal' %}')">
+<button type="button" class="btn btn-secondary btn-sm" onclick="showModal('{% url 'control:create_model_modal' %}')">
     <i class="bi bi-plus-circle"></i>
     Agregar Modelo
 </button>
 <table id="car-model-table" class="table table-striped table-hover">
     <thead>
         <tr>
-            <th></th>
             <th>Marca</th>
             <th>Modelo</th>
+            <th>Editar</th>
+            <th>Borrar</th>
         </tr>
     </thead>
     <tbody>
-        {% for object in objects %}
-        <tr>
-            <td>
-                <a href="{% url 'control:update_model' object.id %}" class="btn btn-success btn-sm">
-                    <i class="bi bi-pencil-square"></i>
-                </a>
-                <button type="button" class="btn btn-info btn-sm"
-                    onclick="abrirModal('{% url 'control:update_model_modal' object.id %}')"
-                >
-                    <i class="bi bi-pencil-square"></i>
-                </button>
-                <a href="{% url 'control:delete_model' object.id %}" class="btn btn-danger btn-sm">
-                    <i class="bi bi-trash"></i>
-                </a>
-                <button type="button" class="btn btn-danger btn-sm"
-                    onclick="deleteCarModel(Number('{{ object.id }}'), '{{ object.brand.description }}', '{{ object.description }}')">
-                    <i class="bi bi-trash3"></i>
-                </button>
-            </td>
-            <td>{{object.brand.description}}</td>
-            <td>{{object.description}}</td>
-        </tr>
-        {% endfor %}
+
     </tbody>
 </table>
 {% include "fragments/card-end.html" %}
@@ -64,7 +43,7 @@
             if (result.isConfirmed) {
                 const url = `{% url 'control:model_list' %}/delete/${id}`
                 $.ajax({
-                    headers: { "X-CSRFToken":"{{ csrf_token }}"},
+                    headers: { "X-CSRFToken": "{{ csrf_token }}" },
                     type: "POST",
                     url,
                     success: (data, textStatus, jqXHR) => {
@@ -73,7 +52,7 @@
                                 title: "Borrado!",
                                 text: `${brand} - ${model} ha sido borrado`,
                                 icon: "success"
-                            }).then(() => { location.reload() });
+                            }).then(() => { tableInfo.ajax.reload() });
                         }
                     },
                     error: (jqXHR, textStatus, errorThrown) => {
@@ -87,5 +66,20 @@
             }
         });
     }
+
+    $("#car-model-table").on("click", "td.editor-edit", function (event) {
+        event.preventDefault()
+        const rows = tableInfo.rows(this).data()
+        const row = rows["0"]
+        const url = `models/update/modal/${row.id}`
+        showModal(url)
+    })
+
+    $("#car-model-table").on("click", "td.editor-delete", function (event) {
+        event.preventDefault()
+        const rows = tableInfo.rows(this).data()
+        const row = rows["0"]
+        deleteCarModel(row.id, row.brand, row.description)
+    })
 </script>
 {% endblock %}

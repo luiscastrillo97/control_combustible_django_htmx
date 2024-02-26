@@ -1,10 +1,34 @@
 {% load static %}
 <script>
+    var tableInfo;
     $(function () {
-        $("{{class_name|default:'#custom_table'}}").DataTable({
+        tableInfo = $("{{class_name|default:'#custom-table'}}").DataTable({
             language: {
                 url: "{% static 'plugins/datatables/es-CO.json' %}",
-            }
+            },
+            ajax: {
+                url: "{% url 'control:datatable_model' %}"
+            },
+            columns: [
+                { data: "brand" },
+                { data: "description" },
+                {
+                    data: null,
+                    className: "dt-center editor-edit text-success",
+                    defaultContent: '<i class="bi bi-pencil-square"></i>',
+                    orderable: false
+                },
+                {
+                    data: null,
+                    className: "dt-center editor-delete text-danger",
+                    defaultContent: '<i class="bi bi-trash"></i>',
+                    orderable: false
+                }
+            ],
+            dom: 'Bfrtip',
+            processing: true,
+            serverSide: true,
+            pageLength: 15
         })
     })
 </script>

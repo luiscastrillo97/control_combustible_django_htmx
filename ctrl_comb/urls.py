@@ -20,4 +20,5 @@ urlpatterns = [
         UpdateCarModelWithModal.as_view(),
         name="update_model_modal",
     ),
+    path("models/datatable", datatable_model, name="datatable_model"),
 ]

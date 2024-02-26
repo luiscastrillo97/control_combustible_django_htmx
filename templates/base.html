@@ -54,13 +54,13 @@
     <script src="{% static 'js/sweetalert2.js' %}"></script>
 
     <script>
-      function abrirModal(url) {
+      function showModal(url) {
         $("#popup").load(url, function () {
           $(this).modal("show");
         });
       }
 
-      function cerrarModal() {
+      function hideModal() {
         $("#popup").modal("hide");
         return false;
       }
