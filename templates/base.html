@@ -1,98 +1,90 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block titulo %}Control de combustible{% endblock %}</title>
 
-    <link rel="stylesheet" href="{% static 'css/bootstrap-flatly.min.css' %}" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block titulo %}Control de combustible{% endblock %}</title>
 
-    <link
-      href="{% static 'plugins/datatables/datatables.min.css' %}"
-      rel="stylesheet"
-    />
-    <link
-      href="{% static 'plugins/datatables/Responsive-3.0.0/css/responsive.bootstrap5.min.css' %}"
-      rel="stylesheet"
-    />
-  </head>
+  <link rel="stylesheet" href="{% static 'css/bootstrap-flatly.min.css' %}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
-  <body id="body" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
-    <!-- Navbar -->
-    {% include "fragments/menu.html" %}
-    <!-- End Navbar -->
+  <link href="{% static 'plugins/datatables/datatables.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'plugins/datatables/Responsive-3.0.0/css/responsive.bootstrap5.min.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+</head>
 
-    <div class="row m-4">
-      <div class="d-flex flex-column align-items-center justify-content-center">
-        {% block contenido %}
-        {% endblock contenido %}
-      </div>
+<body id="body" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+  <!-- Navbar -->
+  {% include "fragments/menu.html" %}
+  <!-- End Navbar -->
+
+  <div class="row m-4">
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      {% block contenido %}
+      {% endblock contenido %}
     </div>
+  </div>
 
-    <div id="popup" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"></div>
+  <div id="popup" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"></div>
 
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"
-      integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/htmx.min.js' %}"></script>
-    <script src="{% static 'plugins/datatables/datatables.min.js' %}"></script>
-    <script src="{% static 'plugins/datatables/Buttons-3.0.0/js/buttons.bootstrap5.min.js' %}"></script>
-    <script src="{% static 'js/sweetalert2.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"
+    integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/htmx.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables/datatables.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables/Buttons-3.0.0/js/buttons.bootstrap5.min.js' %}"></script>
+  <script src="{% static 'js/sweetalert2.js' %}"></script>
 
-    <script>
-      function showModal(url) {
-        $("#popup").load(url, function () {
-          $(this).modal("show");
-        });
-      }
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-      function hideModal() {
-        $("#popup").modal("hide");
-        return false;
-      }
-    </script>
+  <script>
+    function showModal(url) {
+      $("#popup").load(url, function () {
+        $(this).modal("show");
+      });
+    }
 
-    <script>
-      var tableId = "{% block table_id %}#custom-table{% endblock %}"
-      var tableColumns = [
-        {% block table_columns %}{% endblock table_columns %}
-        {% block table_actions %}
-        {
-            data: null,
-              className: "dt-center editor-edit text-success",
-                defaultContent: '<i class="bi bi-pencil-square"></i>',
-                  orderable: false
-          },
-          {
-            data: null,
-              className: "dt-center editor-delete text-danger",
-                defaultContent: '<i class="bi bi-trash"></i>',
-                  orderable: false
-          }
-        {% endblock table_actions %}
-      ]
-      var tableUrl = "{% block table_url %}/{% endblock %}"
-      var editUrl = "{% block edit_url %}/{% endblock %}"
-      var deleteUrl = "{% block delete_url %}/{% endblock %}"
-    </script>
+    function hideModal() {
+      $("#popup").modal("hide");
+      return false;
+    }
+  </script>
 
-    {% include "fragments/datatable.html"%}
+  <script>
+    var tableId = "{% block table_id %}#custom-table{% endblock %}"
+    var tableColumns = [
+      {% block table_columns %}{% endblock table_columns %}
+    {% block table_actions %}
+    {
+      data: null,
+        className: "dt-center editor-edit text-success",
+          defaultContent: '<i class="bi bi-pencil-square"></i>',
+            orderable: false
+    },
+    {
+      data: null,
+        className: "dt-center editor-delete text-danger",
+          defaultContent: '<i class="bi bi-trash"></i>',
+            orderable: false
+    }
+    {% endblock table_actions %}
+    ]
+    var tableUrl = "{% block table_url %}/{% endblock %}"
+    var editUrl = "{% block edit_url %}/{% endblock %}"
+    var deleteUrl = "{% block delete_url %}/{% endblock %}"
+  </script>
 
-    {% block js %}
-    {% endblock %}
-  </body>
+  {% include "fragments/datatable.html"%}
+
+  {% block js %}
+  {% endblock %}
+</body>
+
 </html>

@@ -17,3 +17,9 @@ class CarModelForm(forms.ModelForm):
     class Meta:
         model = CarModel
         fields = ["brand", "description"]
+
+
+class VehicleForm(forms.ModelForm):
+    class Meta:
+        model = Vehicle
+        fields = ["car_model", "registration", "year"]

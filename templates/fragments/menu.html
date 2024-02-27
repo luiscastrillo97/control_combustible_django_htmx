@@ -71,7 +71,9 @@
                   {% if perms.ctrl_comb.view_carmodel %}
                   <a class="dropdown-item" href="{% url 'control:model_list' %}">modelos</a>
                   {% endif %}
-                  <a class="dropdown-item" href="#">Vehículos</a>
+                  {% if perms.ctrl_comb.view_vehicle %}
+                  <a class="dropdown-item" href="{% url 'control:list_vehicles' %}">Vehículos</a>
+                  {% endif %}
                 </div>
               </li>
               {% endif %}

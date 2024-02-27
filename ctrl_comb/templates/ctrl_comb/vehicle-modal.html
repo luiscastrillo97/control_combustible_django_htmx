@@ -1,0 +1,62 @@
+{% load crispy_forms_tags %}
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Agregar/Editar Vehículo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <form action="{{ request.path }}" method="post">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="col mb-2">
+                    <label for="car_model" class="mb-2">Modelo*</label>
+                    <select name="car_model" id="id_model" class="select form-select">
+                        <option value="-1">Seleccione un modelo</option>
+                        {% for car_model in car_models %}
+                        <option value="{{ car_model.id }}">{{ car_model }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        {{form.registration|as_crispy_field}}
+                    </div>
+                    <div class="col-6">
+                        {{form.year|as_crispy_field}}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {% if object.car_model.brand %}
+                <button type="submit" class="btn btn-success btn-sm">
+                    <i class="bi bi-pencil-square"></i>
+                    Editar
+                </button>
+                {% else %}
+                <button type="submit" class="btn btn-info btn-sm">
+                    <i class="bi bi-floppy"></i>
+                    Agregar
+                </button>
+                {% endif %}
+                <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">
+                    <i class="bi bi-x-square"></i>
+                    Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        {% if object %}
+        $("#id_model").val("{{ object.car_model.id }}").trigger("change");
+        {% endif %}
+        $('#id_model').select2({
+            theme: 'bootstrap-5',
+            dropdownParent: $('.modal-content'),
+        });
+    });
+</script>

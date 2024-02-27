@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block titulo %}Vehículos{% endblock %}
+{% block contenido %}
+{% include "fragments/card-start.html" with card_header="Listado de Vehículos" %}
+<button type="button" class="btn btn-info btn-sm mb-2" onclick="showModal('{% url 'control:create_vehicle_modal' %}')">
+    <i class="bi bi-plus-circle"></i>
+    Agregar Vehículo
+</button>
+<table id="vehicle-table" class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Matrícula</th>
+            <th>Año</th>
+            <th>Editar</th>
+            <th>Borrar</th>
+        </tr>
+    </thead>
+</table>
+{% include "fragments/card-end.html" %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+<!-- datatable settings for the table on this page -->
+
+<!-- url to get data -->
+{% block table_url %}{% url 'control:datatable_vehicle' %}{% endblock %}
+<!-- url to edit data -->
+{% block edit_url %}/control/vehicles/update/modal{% endblock %}
+<!-- url to delete data -->
+{% block delete_url %}{% url 'control:list_vehicles' %}/delete{% endblock %}
+<!-- table id -->
+{% block table_id %}#vehicle-table{% endblock %}
+<!-- columns to render -->
+{% block table_columns %}
+{ data: "brand" },
+{ data: "car_model" },
+{ data: "registration" },
+{ data: "year" },
+{% endblock table_columns %}

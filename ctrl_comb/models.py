@@ -1,5 +1,6 @@
 from django.db import models
 from bases.models import BaseModel
+from django.urls import reverse
 
 
 class Brand(BaseModel):
@@ -26,3 +27,26 @@ class CarModel(BaseModel):
         verbose_name = "Modelo"
         verbose_name_plural = "Modelos"
         permissions = [("read_write_permission", "Can read and write car models")]
+
+
+class Vehicle(BaseModel):
+    car_model = models.ForeignKey(
+        CarModel, on_delete=models.RESTRICT, verbose_name="Modelo"
+    )
+    registration = models.CharField(
+        max_length=20, help_text="Matricula", verbose_name="Matrícula"
+    )
+    year = models.PositiveSmallIntegerField(
+        help_text="Año del modelo del vehículo", verbose_name="Año"
+    )
+
+    def __str__(self):
+        return self.registration
+
+    def get_absolute_url(self):
+        return reverse("vehicle_edit", kwargs={"pk": self.pk})
+
+    class Meta:
+        verbose_name = "Vehículo"
+        verbose_name_plural = "Vehículos"
+        db_table_comment = "Vehículos"

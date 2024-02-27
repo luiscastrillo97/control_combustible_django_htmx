@@ -17,10 +17,10 @@
         })
     })
 
-    function deleteCarModel(del_url, id, brand = "", model = "") {
+    function deleteCarModel(del_url, id, brand = "", model = "", registration = "", year = "") {
         Swal.fire({
             title: "Estás seguro/a?",
-            text: `Deseas eliminar ${brand} ${model}`,
+            text: `Deseas eliminar ${brand} ${model} ${registration} ${year}`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -38,7 +38,7 @@
                         if (jqXHR.status == 200) {
                             Swal.fire({
                                 title: "Borrado!",
-                                text: `${brand} ${model} ha sido borrado`,
+                                text: `${brand} ${model} ${registration} ${year} ha sido borrado`,
                                 icon: "success"
                             }).then(() => { tableInfo.ajax.reload() });
                         }
@@ -67,6 +67,7 @@
         event.preventDefault()
         const rows = tableInfo.rows(this).data()
         const row = rows["0"]
-        deleteCarModel(deleteUrl, row.id, row?.brand, row?.description)
+        const description = row?.description ?? row?.car_model
+        deleteCarModel(deleteUrl, row.id, row?.brand, description, row?.registration, row?.year)
     })
 </script>

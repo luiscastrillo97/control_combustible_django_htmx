@@ -21,4 +21,17 @@ urlpatterns = [
         name="update_model_modal",
     ),
     path("models/datatable", datatable_model, name="datatable_model"),
+    path("vehicles", ListVehicles.as_view(), name="list_vehicles"),
+    path("vehicles/datatable", datatable_vehicle, name="datatable_vehicle"),
+    path(
+        "vehicles/create/modal",
+        CreateVehicleWithModal.as_view(),
+        name="create_vehicle_modal",
+    ),
+    path(
+        "vehicles/update/modal/<int:pk>",
+        UpdateVehicleWithModal.as_view(),
+        name="update_vehicle_modal",
+    ),
+    path("vehicles/delete/<int:pk>", DeleteVehicle.as_view(), name="delete_vehicle"),
 ]
