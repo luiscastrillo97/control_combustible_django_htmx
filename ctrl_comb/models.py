@@ -1,7 +1,8 @@
 from django.db import models
+from bases.models import BaseModel
 
 
-class Brand(models.Model):
+class Brand(BaseModel):
     description = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
@@ -12,7 +13,7 @@ class Brand(models.Model):
         verbose_name_plural = "Marcas"
 
 
-class CarModel(models.Model):
+class CarModel(BaseModel):
     description = models.CharField(
         max_length=50, db_comment="Car model description", verbose_name="Modelo"
     )

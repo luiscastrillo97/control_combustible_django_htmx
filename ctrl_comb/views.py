@@ -1,24 +1,24 @@
-from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import JsonResponse, HttpResponseRedirect
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.models import AnonymousUser
 
 from .models import *
 from .forms import *
+from bases.views import LoginAndPermissionRequiredMixin, CreateOrModifyMixin
 
 
-class ListBrands(LoginRequiredMixin, ListView):
+class ListBrands(LoginAndPermissionRequiredMixin, ListView):
     template_name = "ctrl_comb/brand.html"
     model = Brand
     context_object_name = "objects"
     ordering = ["description"]
     login_url = "users:login_alt"
+    permission_required = "ctrl_comb.view_brand"
 
 
 @login_required(login_url="users:login_alt")
@@ -27,6 +27,7 @@ def save_brand(request):
     template_name = "ctrl_comb/brand-list.html"
 
     if request.method == "POST":
+        user_id = request.user
         id = request.POST.get("id")
         description = request.POST.get("description")
         brand = None
@@ -38,9 +39,10 @@ def save_brand(request):
 
         if brand:
             brand.description = description
+            brand.modified_by = user_id
             brand.save()
         else:
-            brand = Brand.objects.create(description=description)
+            brand = Brand.objects.create(description=description, created_by=user_id)
 
     objects = Brand.objects.all().order_by("description")
     context["register"] = brand
@@ -80,7 +82,7 @@ def edit_brand(request, id=None):
     return render(request, template_name, context)
 
 
-class ListCarModels(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class ListCarModels(LoginAndPermissionRequiredMixin, ListView):
     model = CarModel
     template_name = "ctrl_comb/car-model.html"
     context_object_name = "objects"
@@ -88,28 +90,15 @@ class ListCarModels(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     login_url = "users:login_alt"
     permission_required = "ctrl_comb.view_carmodel"
     # permission_required = "ctrl_comb.read_write_permission"
-    raise_exception = False
-    redirect_field_name = "redirect_to"
-
-    def form_invalid(self, form):
-        response = super().form_invalid(form)
-        if self.request.is_ajax():
-            return JsonResponse(form.errors, status=400)
-        return response
-
-    def handle_no_permission(self):
-        if self.request.user != AnonymousUser():
-            self.login_url = "pages:forbidden"
-        return HttpResponseRedirect(reverse_lazy(self.login_url))
 
 
-class CreateCarModel(LoginRequiredMixin, CreateView):
+class CreateCarModel(LoginAndPermissionRequiredMixin, CreateOrModifyMixin, CreateView):
     model = CarModel
     template_name = "ctrl_comb/car-model-form.html"
     form_class = CarModelForm
     context_object_name = "object"
     success_url = reverse_lazy("control:model_list")
-    login_url = "users:login_alt"
+    permission_required = "ctrl_comb.add_carmodel"
 
 
 class UpdateCarModel(LoginRequiredMixin, UpdateView):
@@ -129,13 +118,15 @@ class DeleteCarModel(LoginRequiredMixin, DeleteView):
     login_url = "users:login_alt"
 
 
-class UpdateCarModelWithModal(LoginRequiredMixin, UpdateView):
+class UpdateCarModelWithModal(
+    LoginAndPermissionRequiredMixin, CreateOrModifyMixin, UpdateView
+):
     model = CarModel
     template_name = "ctrl_comb/car-model-edit-modal.html"
     form_class = CarModelForm
     context_object_name = "object"
     success_url = reverse_lazy("control:model_list")
-    login_url = "users:login_alt"
+    permission_required = "ctrl_comb.change_carmodel"
 
 
 class CreateCarModelWithModal(LoginRequiredMixin, CreateView):
@@ -144,7 +135,6 @@ class CreateCarModelWithModal(LoginRequiredMixin, CreateView):
     form_class = CarModelForm
     context_object_name = "object"
     success_url = reverse_lazy("control:model_list")
-    login_url = "users:login_alt"
 
 
 @login_required(login_url="users:login_alt")
