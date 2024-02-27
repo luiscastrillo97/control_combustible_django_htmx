@@ -9,10 +9,14 @@ class CustomUserTest(TestCase):
     def test_crear_usuario(self):
         Usr = get_user_model()
         usr = Usr.objects.create_user(
-            username="test1", email="test1@gmail.com", password="12345678"
+            username="test1",
+            email="test1@gmail.com",
+            password="12345678",
+            first_name="testU1",
         )
 
         self.assertEqual(usr.username, "test1")
+        self.assertEqual(usr.first_name, "testU1")
         self.assertEqual(usr.email, "test1@gmail.com")
         self.assertTrue(usr.is_active)
         self.assertFalse(usr.is_staff)
@@ -21,10 +25,14 @@ class CustomUserTest(TestCase):
     def test_crear_superusuario(self):
         Usr = get_user_model()
         usr = Usr.objects.create_superuser(
-            username="superuser1", email="superuser1@gmail.com", password="12345678"
+            username="superuser1",
+            email="superuser1@gmail.com",
+            password="12345678",
+            first_name="superU1",
         )
 
         self.assertEqual(usr.username, "superuser1")
+        self.assertEqual(usr.first_name, "superU1")
         self.assertEqual(usr.email, "superuser1@gmail.com")
         self.assertTrue(usr.is_active)
         self.assertTrue(usr.is_staff)
@@ -46,7 +54,7 @@ class UserRegisterTest(TestCase):
 
     def test_register_form(self):
         self.assertIsInstance(self.form, CustomUserCreationForm)
-        self.assertContains(self.response, "csrfmiddlewaretoken")
+        self.assertContains(self.response, "X-CSRFToken")
 
     def test_register_view(self):
         self.assertEqual(self.view.func.__name__, RegisterUserView.as_view().__name__)

@@ -24,3 +24,4 @@ class CarModel(models.Model):
     class Meta:
         verbose_name = "Modelo"
         verbose_name_plural = "Modelos"
+        permissions = [("read_write_permission", "Can read and write car models")]

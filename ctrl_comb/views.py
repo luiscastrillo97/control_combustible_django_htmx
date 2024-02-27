@@ -1,21 +1,27 @@
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import AnonymousUser
 
 from .models import *
 from .forms import *
 
 
-class ListBrands(ListView):
+class ListBrands(LoginRequiredMixin, ListView):
     template_name = "ctrl_comb/brand.html"
     model = Brand
     context_object_name = "objects"
     ordering = ["description"]
+    login_url = "users:login_alt"
 
 
+@login_required(login_url="users:login_alt")
 def save_brand(request):
     context = {}
     template_name = "ctrl_comb/brand-list.html"
@@ -43,6 +49,7 @@ def save_brand(request):
     return render(request, template_name, context)
 
 
+@login_required(login_url="users:login_alt")
 def delete_brand(request, id):
     context = {}
     template_name = "ctrl_comb/brand-list.html"
@@ -56,6 +63,7 @@ def delete_brand(request, id):
     return render(request, template_name, context)
 
 
+@login_required(login_url="users:login_alt")
 def edit_brand(request, id=None):
     context = {}
     template_name = "ctrl_comb/brand-form.html"
@@ -72,52 +80,76 @@ def edit_brand(request, id=None):
     return render(request, template_name, context)
 
 
-class ListCarModels(ListView):
+class ListCarModels(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = CarModel
     template_name = "ctrl_comb/car-model.html"
     context_object_name = "objects"
     ordering = ["brand", "description"]
+    login_url = "users:login_alt"
+    permission_required = "ctrl_comb.view_carmodel"
+    # permission_required = "ctrl_comb.read_write_permission"
+    raise_exception = False
+    redirect_field_name = "redirect_to"
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        return response
+
+    def handle_no_permission(self):
+        if self.request.user != AnonymousUser():
+            self.login_url = "pages:forbidden"
+        return HttpResponseRedirect(reverse_lazy(self.login_url))
 
 
-class CreateCarModel(CreateView):
+class CreateCarModel(LoginRequiredMixin, CreateView):
     model = CarModel
     template_name = "ctrl_comb/car-model-form.html"
     form_class = CarModelForm
     context_object_name = "object"
     success_url = reverse_lazy("control:model_list")
+    login_url = "users:login_alt"
 
 
-class UpdateCarModel(UpdateView):
+class UpdateCarModel(LoginRequiredMixin, UpdateView):
     model = CarModel
     template_name = "ctrl_comb/car-model-form.html"
     form_class = CarModelForm
     context_object_name = "object"
     success_url = reverse_lazy("control:model_list")
+    login_url = "users:login_alt"
 
 
-class DeleteCarModel(DeleteView):
+class DeleteCarModel(LoginRequiredMixin, DeleteView):
     model = CarModel
     template_name = "bases/delete.html"
     context_object_name = "object"
     success_url = reverse_lazy("control:model_list")
+    login_url = "users:login_alt"
 
 
-class UpdateCarModelWithModal(UpdateView):
+class UpdateCarModelWithModal(LoginRequiredMixin, UpdateView):
     model = CarModel
     template_name = "ctrl_comb/car-model-edit-modal.html"
     form_class = CarModelForm
     context_object_name = "object"
     success_url = reverse_lazy("control:model_list")
+    login_url = "users:login_alt"
 
 
-class CreateCarModelWithModal(CreateView):
+class CreateCarModelWithModal(LoginRequiredMixin, CreateView):
     model = CarModel
     template_name = "ctrl_comb/car-model-edit-modal.html"
     form_class = CarModelForm
     context_object_name = "object"
     success_url = reverse_lazy("control:model_list")
+    login_url = "users:login_alt"
 
 
+@login_required(login_url="users:login_alt")
+@permission_required(perm="ctrl_comb.view_carmodel")
+# @permission_required(perm="ctrl_comb.read_write_permission")
 def datatable_model(request):
     context = {}
     data = request.GET

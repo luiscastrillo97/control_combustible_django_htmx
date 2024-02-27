@@ -1,7 +1,8 @@
-from django.test import SimpleTestCase
+from django.test import TestCase
 
 
-class HomePageTests(SimpleTestCase):
+class HomePageTests(TestCase):
+
     def setUp(self):
         self.response = self.client.get("/")
 

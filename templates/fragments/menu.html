@@ -42,6 +42,7 @@
                   Inicio
                 </div>
               </li>
+              {% if user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link" href="#">Registrar</a>
               </li>
@@ -67,10 +68,13 @@
                   >
                   Marcas
                   </div>
+                  {% if perms.ctrl_comb.view_carmodel %}
                   <a class="dropdown-item" href="{% url 'control:model_list' %}">modelos</a>
+                  {% endif %}
                   <a class="dropdown-item" href="#">Vehículos</a>
                 </div>
               </li>
+              {% endif %}
               <li class="nav-item">
                 <div
                     class="nav-link"
